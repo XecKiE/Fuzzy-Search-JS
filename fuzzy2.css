@@ -1,0 +1,56 @@
+.fuzzy {
+	user-select: none;
+}
+.fuzzy > * {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 16px;
+	box-sizing: border-box;
+	border: 10px solid #171814;
+	background-color: #171814;
+	width: 400px;
+}
+.fuzzy > input {
+	outline: none;
+	background-color: #272822;
+	padding: 10px;
+	color: #d4d4d3;
+}
+.fuzzy > .fuzzy_dropdown {
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	max-height: 600px;
+
+}
+.fuzzy > .fuzzy_dropdown:first-of-type {
+	margin-top: -10px;
+}
+.fuzzy > .fuzzy_dropdown > div {
+	color: #a9a999;
+	padding: 10px;
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.fuzzy > .fuzzy_dropdown > div.fuzzy_selected {
+	color: #d4d4d3;
+	background-color: #3a3a37;
+}
+
+::-webkit-scrollbar-track
+{
+	background-color: #292a26;
+	border-left: 10px solid #171814;
+}
+::-webkit-scrollbar
+{
+	width: 20px;
+	background-color: #292a26;
+}
+::-webkit-scrollbar-thumb
+{
+	background-color: #484946;
+	border-left: 10px solid #171814;
+}

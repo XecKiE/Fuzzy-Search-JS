@@ -1,0 +1,531 @@
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="fuzzy2.css" />
+	<script src="fuzzy2.js"></script>
+	<script>
+	var countries = [
+		{key: 4, fuzzy: ['AFG', 'AF'], label: 'Afghanistan'},
+		{key: 710, fuzzy: ['ZAF', 'ZA'], label: 'Afrique du Sud'},
+		{key: 248, fuzzy: ['ALA', 'AX'], label: 'Îles Åland'},
+		{key: 8, fuzzy: ['ALB', 'AL'], label: 'Albanie'},
+		{key: 12, fuzzy: ['DZA', 'DZ'], label: 'Algérie'},
+		{key: 276, fuzzy: ['DEU', 'DE'], label: 'Allemagne'},
+		{key: 20, fuzzy: ['AND', 'AD'], label: 'Andorre'},
+		{key: 24, fuzzy: ['AGO', 'AO'], label: 'Angola'},
+		{key: 660, fuzzy: ['AIA', 'AI'], label: 'Anguilla'},
+		{key: 10, fuzzy: ['ATA', 'AQ'], label: 'Antarctique'},
+		{key: 28, fuzzy: ['ATG', 'AG'], label: 'Antigua-et-Barbuda'},
+		{key: 682, fuzzy: ['SAU', 'SA'], label: 'Arabie saoudite'},
+		{key: 32, fuzzy: ['ARG', 'AR'], label: 'Argentine'},
+		{key: 51, fuzzy: ['ARM', 'AM'], label: 'Arménie'},
+		{key: 533, fuzzy: ['ABW', 'AW'], label: 'Aruba'},
+		{key: 36, fuzzy: ['AUS', 'AU'], label: 'Australie'},
+		{key: 40, fuzzy: ['AUT', 'AT'], label: 'Autriche'},
+		{key: 31, fuzzy: ['AZE', 'AZ'], label: 'Azerbaïdjan'},
+		{key: 44, fuzzy: ['BHS', 'BS'], label: 'Bahamas'},
+		{key: 48, fuzzy: ['BHR', 'BH'], label: 'Bahreïn'},
+		{key: 50, fuzzy: ['BGD', 'BD'], label: 'Bangladesh'},
+		{key: 52, fuzzy: ['BRB', 'BB'], label: 'Barbade'},
+		{key: 112, fuzzy: ['BLR', 'BY'], label: 'Biélorussie'},
+		{key: 56, fuzzy: ['BEL', 'BE'], label: 'Belgique'},
+		{key: 84, fuzzy: ['BLZ', 'BZ'], label: 'Belize'},
+		{key: 204, fuzzy: ['BEN', 'BJ'], label: 'Bénin'},
+		{key: 60, fuzzy: ['BMU', 'BM'], label: 'Bermudes'},
+		{key: 64, fuzzy: ['BTN', 'BT'], label: 'Bhoutan'},
+		{key: 68, fuzzy: ['BOL', 'BO'], label: 'Bolivie'},
+		{key: 535, fuzzy: ['BES', 'BQ'], label: 'Pays-Bas caribéens'},
+		{key: 70, fuzzy: ['BIH', 'BA'], label: 'Bosnie-Herzégovine'},
+		{key: 72, fuzzy: ['BWA', 'BW'], label: 'Botswana'},
+		{key: 74, fuzzy: ['BVT', 'BV'], label: 'Île Bouvet'},
+		{key: 76, fuzzy: ['BRA', 'BR'], label: 'Brésil'},
+		{key: 96, fuzzy: ['BRN', 'BN'], label: 'Brunei'},
+		{key: 100, fuzzy: ['BGR', 'BG'], label: 'Bulgarie'},
+		{key: 854, fuzzy: ['BFA', 'BF'], label: 'Burkina Faso'},
+		{key: 108, fuzzy: ['BDI', 'BI'], label: 'Burundi'},
+		{key: 136, fuzzy: ['CYM', 'KY'], label: 'Îles Caïmans'},
+		{key: 116, fuzzy: ['KHM', 'KH'], label: 'Cambodge'},
+		{key: 120, fuzzy: ['CMR', 'CM'], label: 'Cameroun'},
+		{key: 124, fuzzy: ['CAN', 'CA'], label: 'Canada'},
+		{key: 132, fuzzy: ['CPV', 'CV'], label: 'Cap-Vert'},
+		{key: 140, fuzzy: ['CAF', 'CF'], label: 'République centrafricaine'},
+		{key: 152, fuzzy: ['CHL', 'CL'], label: 'Chili'},
+		{key: 156, fuzzy: ['CHN', 'CN'], label: 'Chine'},
+		{key: 162, fuzzy: ['CXR', 'CX'], label: 'Île Christmas'},
+		{key: 196, fuzzy: ['CYP', 'CY'], label: 'Chypre (pays)'},
+		{key: 166, fuzzy: ['CCK', 'CC'], label: 'Îles Cocos'},
+		{key: 170, fuzzy: ['COL', 'CO'], label: 'Colombie'},
+		{key: 174, fuzzy: ['COM', 'KM'], label: 'Comores (pays)'},
+		{key: 178, fuzzy: ['COG', 'CG'], label: 'République du Congo'},
+		{key: 180, fuzzy: ['COD', 'CD'], label: 'République démocratique du Congo'},
+		{key: 184, fuzzy: ['COK', 'CK'], label: 'Îles Cook'},
+		{key: 410, fuzzy: ['KOR', 'KR'], label: 'Corée du Sud'},
+		{key: 408, fuzzy: ['PRK', 'KP'], label: 'Corée du Nord'},
+		{key: 188, fuzzy: ['CRI', 'CR'], label: 'Costa Rica'},
+		{key: 384, fuzzy: ['CIV', 'CI'], label: 'Côte d\'Ivoire'},
+		{key: 191, fuzzy: ['HRV', 'HR'], label: 'Croatie'},
+		{key: 192, fuzzy: ['CUB', 'CU'], label: 'Cuba'},
+		{key: 531, fuzzy: ['CUW', 'CW'], label: 'Curaçao'},
+		{key: 208, fuzzy: ['DNK', 'DK'], label: 'Danemark'},
+		{key: 262, fuzzy: ['DJI', 'DJ'], label: 'Djibouti'},
+		{key: 214, fuzzy: ['DOM', 'DO'], label: 'République dominicaine'},
+		{key: 212, fuzzy: ['DMA', 'DM'], label: 'Dominique'},
+		{key: 818, fuzzy: ['EGY', 'EG'], label: 'Égypte'},
+		{key: 222, fuzzy: ['SLV', 'SV'], label: 'Salvador'},
+		{key: 784, fuzzy: ['ARE', 'AE'], label: 'Émirats arabes unis'},
+		{key: 218, fuzzy: ['ECU', 'EC'], label: 'Équateur (pays)'},
+		{key: 232, fuzzy: ['ERI', 'ER'], label: 'Érythrée'},
+		{key: 724, fuzzy: ['ESP', 'ES'], label: 'Espagne'},
+		{key: 233, fuzzy: ['EST', 'EE'], label: 'Estonie'},
+		{key: 840, fuzzy: ['USA', 'US'], label: 'États-Unis'},
+		{key: 231, fuzzy: ['ETH', 'ET'], label: 'Éthiopie'},
+		{key: 238, fuzzy: ['FLK', 'FK'], label: 'Malouines'},
+		{key: 234, fuzzy: ['FRO', 'FO'], label: 'Îles Féroé'},
+		{key: 242, fuzzy: ['FJI', 'FJ'], label: 'Fidji'},
+		{key: 246, fuzzy: ['FIN', 'FI'], label: 'Finlande'},
+		{key: 250, fuzzy: ['FRA', 'FR'], label: 'France'},
+		{key: 266, fuzzy: ['GAB', 'GA'], label: 'Gabon'},
+		{key: 270, fuzzy: ['GMB', 'GM'], label: 'Gambie'},
+		{key: 268, fuzzy: ['GEO', 'GE'], label: 'Géorgie (pays)'},
+		{key: 239, fuzzy: ['SGS', 'GS'], label: 'Géorgie du Sud-et-les Îles Sandwich du Sud'},
+		{key: 288, fuzzy: ['GHA', 'GH'], label: 'Ghana'},
+		{key: 292, fuzzy: ['GIB', 'GI'], label: 'Gibraltar'},
+		{key: 300, fuzzy: ['GRC', 'GR'], label: 'Grèce'},
+		{key: 308, fuzzy: ['GRD', 'GD'], label: 'Grenade (pays)'},
+		{key: 304, fuzzy: ['GRL', 'GL'], label: 'Groenland'},
+		{key: 312, fuzzy: ['GLP', 'GP'], label: 'Guadeloupe'},
+		{key: 316, fuzzy: ['GUM', 'GU'], label: 'Guam'},
+		{key: 320, fuzzy: ['GTM', 'GT'], label: 'Guatemala'},
+		{key: 831, fuzzy: ['GGY', 'GG'], label: 'Guernesey'},
+		{key: 324, fuzzy: ['GIN', 'GN'], label: 'Guinée'},
+		{key: 624, fuzzy: ['GNB', 'GW'], label: 'Guinée-Bissau'},
+		{key: 226, fuzzy: ['GNQ', 'GQ'], label: 'Guinée équatoriale'},
+		{key: 328, fuzzy: ['GUY', 'GY'], label: 'Guyana'},
+		{key: 254, fuzzy: ['GUF', 'GF'], label: 'Guyane'},
+		{key: 332, fuzzy: ['HTI', 'HT'], label: 'Haïti'},
+		{key: 334, fuzzy: ['HMD', 'HM'], label: 'Îles Heard-et-MacDonald'},
+		{key: 340, fuzzy: ['HND', 'HN'], label: 'Honduras'},
+		{key: 344, fuzzy: ['HKG', 'HK'], label: 'Hong Kong'},
+		{key: 348, fuzzy: ['HUN', 'HU'], label: 'Hongrie'},
+		{key: 833, fuzzy: ['IMN', 'IM'], label: 'Île de Man'},
+		{key: 581, fuzzy: ['UMI', 'UM'], label: 'Îles mineures éloignées des États-Unis'},
+		{key: 92, fuzzy: ['VGB', 'VG'], label: 'Îles Vierges britanniques'},
+		{key: 850, fuzzy: ['VIR', 'VI'], label: 'Îles Vierges des États-Unis'},
+		{key: 356, fuzzy: ['IND', 'IN'], label: 'Inde'},
+		{key: 360, fuzzy: ['IDN', 'ID'], label: 'Indonésie'},
+		{key: 364, fuzzy: ['IRN', 'IR'], label: 'Iran'},
+		{key: 368, fuzzy: ['IRQ', 'IQ'], label: 'Irak'},
+		{key: 372, fuzzy: ['IRL', 'IE'], label: 'Irlande (pays)'},
+		{key: 352, fuzzy: ['ISL', 'IS'], label: 'Islande'},
+		{key: 376, fuzzy: ['ISR', 'IL'], label: 'Israël'},
+		{key: 380, fuzzy: ['ITA', 'IT'], label: 'Italie'},
+		{key: 388, fuzzy: ['JAM', 'JM'], label: 'Jamaïque'},
+		{key: 392, fuzzy: ['JPN', 'JP'], label: 'Japon'},
+		{key: 832, fuzzy: ['JEY', 'JE'], label: 'Jersey'},
+		{key: 400, fuzzy: ['JOR', 'JO'], label: 'Jordanie'},
+		{key: 398, fuzzy: ['KAZ', 'KZ'], label: 'Kazakhstan'},
+		{key: 404, fuzzy: ['KEN', 'KE'], label: 'Kenya'},
+		{key: 417, fuzzy: ['KGZ', 'KG'], label: 'Kirghizstan'},
+		{key: 296, fuzzy: ['KIR', 'KI'], label: 'Kiribati'},
+		{key: 414, fuzzy: ['KWT', 'KW'], label: 'Koweït'},
+		{key: 418, fuzzy: ['LAO', 'LA'], label: 'Laos'},
+		{key: 426, fuzzy: ['LSO', 'LS'], label: 'Lesotho'},
+		{key: 428, fuzzy: ['LVA', 'LV'], label: 'Lettonie'},
+		{key: 422, fuzzy: ['LBN', 'LB'], label: 'Liban'},
+		{key: 430, fuzzy: ['LBR', 'LR'], label: 'Liberia'},
+		{key: 434, fuzzy: ['LBY', 'LY'], label: 'Libye'},
+		{key: 438, fuzzy: ['LIE', 'LI'], label: 'Liechtenstein'},
+		{key: 440, fuzzy: ['LTU', 'LT'], label: 'Lituanie'},
+		{key: 442, fuzzy: ['LUX', 'LU'], label: 'Luxembourg (pays)'},
+		{key: 446, fuzzy: ['MAC', 'MO'], label: 'Macao'},
+		{key: 807, fuzzy: ['MKD', 'MK'], label: 'République de Macédoine (pays)'},
+		{key: 450, fuzzy: ['MDG', 'MG'], label: 'Madagascar'},
+		{key: 458, fuzzy: ['MYS', 'MY'], label: 'Malaisie'},
+		{key: 454, fuzzy: ['MWI', 'MW'], label: 'Malawi'},
+		{key: 462, fuzzy: ['MDV', 'MV'], label: 'Maldives'},
+		{key: 466, fuzzy: ['MLI', 'ML'], label: 'Mali'},
+		{key: 470, fuzzy: ['MLT', 'MT'], label: 'Malte'},
+		{key: 580, fuzzy: ['MNP', 'MP'], label: 'Îles Mariannes du Nord'},
+		{key: 504, fuzzy: ['MAR', 'MA'], label: 'Maroc'},
+		{key: 584, fuzzy: ['MHL', 'MH'], label: 'Îles Marshall (pays)'},
+		{key: 474, fuzzy: ['MTQ', 'MQ'], label: 'Martinique'},
+		{key: 480, fuzzy: ['MUS', 'MU'], label: 'Maurice (pays)'},
+		{key: 478, fuzzy: ['MRT', 'MR'], label: 'Mauritanie'},
+		{key: 175, fuzzy: ['MYT', 'YT'], label: 'Mayotte'},
+		{key: 484, fuzzy: ['MEX', 'MX'], label: 'Mexique'},
+		{key: 583, fuzzy: ['FSM', 'FM'], label: 'Micronésie (pays)'},
+		{key: 498, fuzzy: ['MDA', 'MD'], label: 'Moldavie'},
+		{key: 492, fuzzy: ['MCO', 'MC'], label: 'Monaco'},
+		{key: 496, fuzzy: ['MNG', 'MN'], label: 'Mongolie'},
+		{key: 499, fuzzy: ['MNE', 'ME'], label: 'Monténégro'},
+		{key: 500, fuzzy: ['MSR', 'MS'], label: 'Montserrat'},
+		{key: 508, fuzzy: ['MOZ', 'MZ'], label: 'Mozambique'},
+		{key: 104, fuzzy: ['MMR', 'MM'], label: 'Birmanie'},
+		{key: 516, fuzzy: ['NAM', 'NA'], label: 'Namibie'},
+		{key: 520, fuzzy: ['NRU', 'NR'], label: 'Nauru'},
+		{key: 524, fuzzy: ['NPL', 'NP'], label: 'Népal'},
+		{key: 558, fuzzy: ['NIC', 'NI'], label: 'Nicaragua'},
+		{key: 562, fuzzy: ['NER', 'NE'], label: 'Niger'},
+		{key: 566, fuzzy: ['NGA', 'NG'], label: 'Nigeria'},
+		{key: 570, fuzzy: ['NIU', 'NU'], label: 'Niue'},
+		{key: 574, fuzzy: ['NFK', 'NF'], label: 'Île Norfolk'},
+		{key: 578, fuzzy: ['NOR', 'NO'], label: 'Norvège'},
+		{key: 540, fuzzy: ['NCL', 'NC'], label: 'Nouvelle-Calédonie'},
+		{key: 554, fuzzy: ['NZL', 'NZ'], label: 'Nouvelle-Zélande'},
+		{key: 86, fuzzy: ['IOT', 'IO'], label: 'Territoire britannique de l\'océan Indien'},
+		{key: 512, fuzzy: ['OMN', 'OM'], label: 'Oman'},
+		{key: 800, fuzzy: ['UGA', 'UG'], label: 'Ouganda'},
+		{key: 860, fuzzy: ['UZB', 'UZ'], label: 'Ouzbékistan'},
+		{key: 586, fuzzy: ['PAK', 'PK'], label: 'Pakistan'},
+		{key: 585, fuzzy: ['PLW', 'PW'], label: 'Palaos'},
+		{key: 275, fuzzy: ['PSE', 'PS'], label: 'Palestine'},
+		{key: 591, fuzzy: ['PAN', 'PA'], label: 'Panama'},
+		{key: 598, fuzzy: ['PNG', 'PG'], label: 'Papouasie-Nouvelle-Guinée'},
+		{key: 600, fuzzy: ['PRY', 'PY'], label: 'Paraguay'},
+		{key: 528, fuzzy: ['NLD', 'NL'], label: 'Pays-Bas'},
+		{key: 604, fuzzy: ['PER', 'PE'], label: 'Pérou'},
+		{key: 608, fuzzy: ['PHL', 'PH'], label: 'Philippines'},
+		{key: 612, fuzzy: ['PCN', 'PN'], label: 'Îles Pitcairn'},
+		{key: 616, fuzzy: ['POL', 'PL'], label: 'Pologne'},
+		{key: 258, fuzzy: ['PYF', 'PF'], label: 'Polynésie française'},
+		{key: 630, fuzzy: ['PRI', 'PR'], label: 'Porto Rico'},
+		{key: 620, fuzzy: ['PRT', 'PT'], label: 'Portugal'},
+		{key: 634, fuzzy: ['QAT', 'QA'], label: 'Qatar'},
+		{key: 638, fuzzy: ['REU', 'RE'], label: 'La Réunion'},
+		{key: 642, fuzzy: ['ROU', 'RO'], label: 'Roumanie'},
+		{key: 826, fuzzy: ['GBR', 'GB'], label: 'Royaume-Uni'},
+		{key: 643, fuzzy: ['RUS', 'RU'], label: 'Russie'},
+		{key: 646, fuzzy: ['RWA', 'RW'], label: 'Rwanda'},
+		{key: 732, fuzzy: ['ESH', 'EH'], label: 'République arabe sahraouie démocratique'},
+		{key: 652, fuzzy: ['BLM', 'BL'], label: 'Saint-Barthélemy'},
+		{key: 659, fuzzy: ['KNA', 'KN'], label: 'Saint-Christophe-et-Niévès'},
+		{key: 674, fuzzy: ['SMR', 'SM'], label: 'Saint-Marin'},
+		{key: 663, fuzzy: ['MAF', 'MF'], label: 'Saint-Martin'},
+		{key: 534, fuzzy: ['SXM', 'SX'], label: 'Saint-Martin'},
+		{key: 666, fuzzy: ['SPM', 'PM'], label: 'Saint-Pierre-et-Miquelon'},
+		{key: 336, fuzzy: ['VAT', 'VA'], label: 'Saint-Siège (État de la Cité du Vatican)'},
+		{key: 670, fuzzy: ['VCT', 'VC'], label: 'Saint-Vincent-et-les Grenadines'},
+		{key: 654, fuzzy: ['SHN', 'SH'], label: 'Sainte-Hélène, Ascension et Tristan da Cunha'},
+		{key: 662, fuzzy: ['LCA', 'LC'], label: 'Sainte-Lucie'},
+		{key: 90, fuzzy: ['SLB', 'SB'], label: 'Salomon'},
+		{key: 882, fuzzy: ['WSM', 'WS'], label: 'Samoa'},
+		{key: 16, fuzzy: ['ASM', 'AS'], label: 'Samoa américaines'},
+		{key: 678, fuzzy: ['STP', 'ST'], label: 'Sao Tomé-et-Principe'},
+		{key: 686, fuzzy: ['SEN', 'SN'], label: 'Sénégal'},
+		{key: 688, fuzzy: ['SRB', 'RS'], label: 'Serbie'},
+		{key: 690, fuzzy: ['SYC', 'SC'], label: 'Seychelles'},
+		{key: 694, fuzzy: ['SLE', 'SL'], label: 'Sierra Leone'},
+		{key: 702, fuzzy: ['SGP', 'SG'], label: 'Singapour'},
+		{key: 703, fuzzy: ['SVK', 'SK'], label: 'Slovaquie'},
+		{key: 705, fuzzy: ['SVN', 'SI'], label: 'Slovénie'},
+		{key: 706, fuzzy: ['SOM', 'SO'], label: 'Somalie'},
+		{key: 729, fuzzy: ['SDN', 'SD'], label: 'Soudan'},
+		{key: 728, fuzzy: ['SSD', 'SS'], label: 'Soudan du Sud'},
+		{key: 144, fuzzy: ['LKA', 'LK'], label: 'Sri Lanka'},
+		{key: 752, fuzzy: ['SWE', 'SE'], label: 'Suède'},
+		{key: 756, fuzzy: ['CHE', 'CH'], label: 'Suisse'},
+		{key: 740, fuzzy: ['SUR', 'SR'], label: 'Suriname'},
+		{key: 744, fuzzy: ['SJM', 'SJ'], label: 'Svalbard et ile Jan Mayen'},
+		{key: 748, fuzzy: ['SWZ', 'SZ'], label: 'Swaziland'},
+		{key: 760, fuzzy: ['SYR', 'SY'], label: 'Syrie'},
+		{key: 762, fuzzy: ['TJK', 'TJ'], label: 'Tadjikistan'},
+		{key: 158, fuzzy: ['TWN', 'TW'], label: 'Taïwan / (République de Chine (Taïwan))'},
+		{key: 834, fuzzy: ['TZA', 'TZ'], label: 'Tanzanie'},
+		{key: 148, fuzzy: ['TCD', 'TD'], label: 'Tchad'},
+		{key: 203, fuzzy: ['CZE', 'CZ'], label: 'Tchéquie'},
+		{key: 260, fuzzy: ['ATF', 'TF'], label: 'Terres australes et antarctiques françaises'},
+		{key: 764, fuzzy: ['THA', 'TH'], label: 'Thaïlande'},
+		{key: 626, fuzzy: ['TLS', 'TL'], label: 'Timor oriental'},
+		{key: 768, fuzzy: ['TGO', 'TG'], label: 'Togo'},
+		{key: 772, fuzzy: ['TKL', 'TK'], label: 'Tokelau'},
+		{key: 776, fuzzy: ['TON', 'TO'], label: 'Tonga'},
+		{key: 780, fuzzy: ['TTO', 'TT'], label: 'Trinité-et-Tobago'},
+		{key: 788, fuzzy: ['TUN', 'TN'], label: 'Tunisie'},
+		{key: 795, fuzzy: ['TKM', 'TM'], label: 'Turkménistan'},
+		{key: 796, fuzzy: ['TCA', 'TC'], label: 'Îles Turques-et-Caïques'},
+		{key: 792, fuzzy: ['TUR', 'TR'], label: 'Turquie'},
+		{key: 798, fuzzy: ['TUV', 'TV'], label: 'Tuvalu'},
+		{key: 804, fuzzy: ['UKR', 'UA'], label: 'Ukraine'},
+		{key: 858, fuzzy: ['URY', 'UY'], label: 'Uruguay'},
+		{key: 548, fuzzy: ['VUT', 'VU'], label: 'Vanuatu'},
+		{key: 862, fuzzy: ['VEN', 'VE'], label: 'Venezuela'},
+		{key: 704, fuzzy: ['VNM', 'VN'], label: 'Viêt Nam'},
+		{key: 876, fuzzy: ['WLF', 'WF'], label: 'Wallis-et-Futuna'},
+		{key: 887, fuzzy: ['YEM', 'YE'], label: 'Yémen'},
+		{key: 894, fuzzy: ['ZMB', 'ZM'], label: 'Zambie'},
+		{key: 716, fuzzy: ['ZWE', 'ZW'], label: 'Zimbabwe'}
+	];
+
+	window.onload = function() {
+		new Fuzzy(document.getElementById('fuzzy1'), countries);
+		new Fuzzy(document.getElementById('fuzzy2'));
+		new Fuzzy(document.getElementById('fuzzy'));
+	}
+	</script>
+</head>
+<body>
+	<div style="display: flex;align-items: flex-start;">
+		<div class="fuzzy" id="fuzzy1"><input /></div>
+		<div class="fuzzy" id="fuzzy2"><input/>
+			<datalist>
+				<option value="4" data-fuzzy="AFG|AF">Afghanistan</option>
+				<option value="710" data-fuzzy="ZAF|ZA">Afrique du Sud</option>
+				<option value="248" data-fuzzy="ALA|AX">Îles Åland</option>
+				<option value="8" data-fuzzy="ALB|AL">Albanie</option>
+				<option value="12" data-fuzzy="DZA|DZ">Algérie</option>
+				<option value="276" data-fuzzy="DEU|DE">Allemagne</option>
+				<option value="20" data-fuzzy="AND|AD">Andorre</option>
+				<option value="24" data-fuzzy="AGO|AO">Angola</option>
+				<option value="660" data-fuzzy="AIA|AI">Anguilla</option>
+				<option value="10" data-fuzzy="ATA|AQ">Antarctique</option>
+				<option value="28" data-fuzzy="ATG|AG">Antigua-et-Barbuda</option>
+				<option value="682" data-fuzzy="SAU|SA">Arabie saoudite</option>
+				<option value="32" data-fuzzy="ARG|AR">Argentine</option>
+				<option value="51" data-fuzzy="ARM|AM">Arménie</option>
+				<option value="533" data-fuzzy="ABW|AW">Aruba</option>
+				<option value="36" data-fuzzy="AUS|AU">Australie</option>
+				<option value="40" data-fuzzy="AUT|AT">Autriche</option>
+				<option value="31" data-fuzzy="AZE|AZ">Azerbaïdjan</option>
+				<option value="44" data-fuzzy="BHS|BS">Bahamas</option>
+				<option value="48" data-fuzzy="BHR|BH">Bahreïn</option>
+				<option value="50" data-fuzzy="BGD|BD">Bangladesh</option>
+				<option value="52" data-fuzzy="BRB|BB">Barbade</option>
+				<option value="112" data-fuzzy="BLR|BY">Biélorussie</option>
+				<option value="56" data-fuzzy="BEL|BE">Belgique</option>
+				<option value="84" data-fuzzy="BLZ|BZ">Belize</option>
+				<option value="204" data-fuzzy="BEN|BJ">Bénin</option>
+				<option value="60" data-fuzzy="BMU|BM">Bermudes</option>
+				<option value="64" data-fuzzy="BTN|BT">Bhoutan</option>
+				<option value="68" data-fuzzy="BOL|BO">Bolivie</option>
+				<option value="535" data-fuzzy="BES|BQ">Pays-Bas caribéens</option>
+				<option value="70" data-fuzzy="BIH|BA">Bosnie-Herzégovine</option>
+				<option value="72" data-fuzzy="BWA|BW">Botswana</option>
+				<option value="74" data-fuzzy="BVT|BV">Île Bouvet</option>
+				<option value="76" data-fuzzy="BRA|BR">Brésil</option>
+				<option value="96" data-fuzzy="BRN|BN">Brunei</option>
+				<option value="100" data-fuzzy="BGR|BG">Bulgarie</option>
+				<option value="854" data-fuzzy="BFA|BF">Burkina Faso</option>
+				<option value="108" data-fuzzy="BDI|BI">Burundi</option>
+				<option value="136" data-fuzzy="CYM|KY">Îles Caïmans</option>
+				<option value="116" data-fuzzy="KHM|KH">Cambodge</option>
+				<option value="120" data-fuzzy="CMR|CM">Cameroun</option>
+				<option value="124" data-fuzzy="CAN|CA">Canada</option>
+				<option value="132" data-fuzzy="CPV|CV">Cap-Vert</option>
+				<option value="140" data-fuzzy="CAF|CF">République centrafricaine</option>
+				<option value="152" data-fuzzy="CHL|CL">Chili</option>
+				<option value="156" data-fuzzy="CHN|CN">Chine</option>
+				<option value="162" data-fuzzy="CXR|CX">Île Christmas</option>
+				<option value="196" data-fuzzy="CYP|CY">Chypre (pays)</option>
+				<option value="166" data-fuzzy="CCK|CC">Îles Cocos</option>
+				<option value="170" data-fuzzy="COL|CO">Colombie</option>
+				<option value="174" data-fuzzy="COM|KM">Comores (pays)</option>
+				<option value="178" data-fuzzy="COG|CG">République du Congo</option>
+				<option value="180" data-fuzzy="COD|CD">République démocratique du Congo</option>
+				<option value="184" data-fuzzy="COK|CK">Îles Cook</option>
+				<option value="410" data-fuzzy="KOR|KR">Corée du Sud</option>
+				<option value="408" data-fuzzy="PRK|KP">Corée du Nord</option>
+				<option value="188" data-fuzzy="CRI|CR">Costa Rica</option>
+				<option value="384" data-fuzzy="CIV|CI">Côte d\'Ivoire</option>
+				<option value="191" data-fuzzy="HRV|HR">Croatie</option>
+				<option value="192" data-fuzzy="CUB|CU">Cuba</option>
+				<option value="531" data-fuzzy="CUW|CW">Curaçao</option>
+				<option value="208" data-fuzzy="DNK|DK">Danemark</option>
+				<option value="262" data-fuzzy="DJI|DJ">Djibouti</option>
+				<option value="214" data-fuzzy="DOM|DO">République dominicaine</option>
+				<option value="212" data-fuzzy="DMA|DM">Dominique</option>
+				<option value="818" data-fuzzy="EGY|EG">Égypte</option>
+				<option value="222" data-fuzzy="SLV|SV">Salvador</option>
+				<option value="784" data-fuzzy="ARE|AE">Émirats arabes unis</option>
+				<option value="218" data-fuzzy="ECU|EC">Équateur (pays)</option>
+				<option value="232" data-fuzzy="ERI|ER">Érythrée</option>
+				<option value="724" data-fuzzy="ESP|ES">Espagne</option>
+				<option value="233" data-fuzzy="EST|EE">Estonie</option>
+				<option value="840" data-fuzzy="USA|US">États-Unis</option>
+				<option value="231" data-fuzzy="ETH|ET">Éthiopie</option>
+				<option value="238" data-fuzzy="FLK|FK">Malouines</option>
+				<option value="234" data-fuzzy="FRO|FO">Îles Féroé</option>
+				<option value="242" data-fuzzy="FJI|FJ">Fidji</option>
+				<option value="246" data-fuzzy="FIN|FI">Finlande</option>
+				<option value="250" data-fuzzy="FRA|FR">France</option>
+				<option value="266" data-fuzzy="GAB|GA">Gabon</option>
+				<option value="270" data-fuzzy="GMB|GM">Gambie</option>
+				<option value="268" data-fuzzy="GEO|GE">Géorgie (pays)</option>
+				<option value="239" data-fuzzy="SGS|GS">Géorgie du Sud-et-les Îles Sandwich du Sud</option>
+				<option value="288" data-fuzzy="GHA|GH">Ghana</option>
+				<option value="292" data-fuzzy="GIB|GI">Gibraltar</option>
+				<option value="300" data-fuzzy="GRC|GR">Grèce</option>
+				<option value="308" data-fuzzy="GRD|GD">Grenade (pays)</option>
+				<option value="304" data-fuzzy="GRL|GL">Groenland</option>
+				<option value="312" data-fuzzy="GLP|GP">Guadeloupe</option>
+				<option value="316" data-fuzzy="GUM|GU">Guam</option>
+				<option value="320" data-fuzzy="GTM|GT">Guatemala</option>
+				<option value="831" data-fuzzy="GGY|GG">Guernesey</option>
+				<option value="324" data-fuzzy="GIN|GN">Guinée</option>
+				<option value="624" data-fuzzy="GNB|GW">Guinée-Bissau</option>
+				<option value="226" data-fuzzy="GNQ|GQ">Guinée équatoriale</option>
+				<option value="328" data-fuzzy="GUY|GY">Guyana</option>
+				<option value="254" data-fuzzy="GUF|GF">Guyane</option>
+				<option value="332" data-fuzzy="HTI|HT">Haïti</option>
+				<option value="334" data-fuzzy="HMD|HM">Îles Heard-et-MacDonald</option>
+				<option value="340" data-fuzzy="HND|HN">Honduras</option>
+				<option value="344" data-fuzzy="HKG|HK">Hong Kong</option>
+				<option value="348" data-fuzzy="HUN|HU">Hongrie</option>
+				<option value="833" data-fuzzy="IMN|IM">Île de Man</option>
+				<option value="581" data-fuzzy="UMI|UM">Îles mineures éloignées des États-Unis</option>
+				<option value="92" data-fuzzy="VGB|VG">Îles Vierges britanniques</option>
+				<option value="850" data-fuzzy="VIR|VI">Îles Vierges des États-Unis</option>
+				<option value="356" data-fuzzy="IND|IN">Inde</option>
+				<option value="360" data-fuzzy="IDN|ID">Indonésie</option>
+				<option value="364" data-fuzzy="IRN|IR">Iran</option>
+				<option value="368" data-fuzzy="IRQ|IQ">Irak</option>
+				<option value="372" data-fuzzy="IRL|IE">Irlande (pays)</option>
+				<option value="352" data-fuzzy="ISL|IS">Islande</option>
+				<option value="376" data-fuzzy="ISR|IL">Israël</option>
+				<option value="380" data-fuzzy="ITA|IT">Italie</option>
+				<option value="388" data-fuzzy="JAM|JM">Jamaïque</option>
+				<option value="392" data-fuzzy="JPN|JP">Japon</option>
+				<option value="832" data-fuzzy="JEY|JE">Jersey</option>
+				<option value="400" data-fuzzy="JOR|JO">Jordanie</option>
+				<option value="398" data-fuzzy="KAZ|KZ">Kazakhstan</option>
+				<option value="404" data-fuzzy="KEN|KE">Kenya</option>
+				<option value="417" data-fuzzy="KGZ|KG">Kirghizstan</option>
+				<option value="296" data-fuzzy="KIR|KI">Kiribati</option>
+				<option value="414" data-fuzzy="KWT|KW">Koweït</option>
+				<option value="418" data-fuzzy="LAO|LA">Laos</option>
+				<option value="426" data-fuzzy="LSO|LS">Lesotho</option>
+				<option value="428" data-fuzzy="LVA|LV">Lettonie</option>
+				<option value="422" data-fuzzy="LBN|LB">Liban</option>
+				<option value="430" data-fuzzy="LBR|LR">Liberia</option>
+				<option value="434" data-fuzzy="LBY|LY">Libye</option>
+				<option value="438" data-fuzzy="LIE|LI">Liechtenstein</option>
+				<option value="440" data-fuzzy="LTU|LT">Lituanie</option>
+				<option value="442" data-fuzzy="LUX|LU">Luxembourg (pays)</option>
+				<option value="446" data-fuzzy="MAC|MO">Macao</option>
+				<option value="807" data-fuzzy="MKD|MK">République de Macédoine (pays)</option>
+				<option value="450" data-fuzzy="MDG|MG">Madagascar</option>
+				<option value="458" data-fuzzy="MYS|MY">Malaisie</option>
+				<option value="454" data-fuzzy="MWI|MW">Malawi</option>
+				<option value="462" data-fuzzy="MDV|MV">Maldives</option>
+				<option value="466" data-fuzzy="MLI|ML">Mali</option>
+				<option value="470" data-fuzzy="MLT|MT">Malte</option>
+				<option value="580" data-fuzzy="MNP|MP">Îles Mariannes du Nord</option>
+				<option value="504" data-fuzzy="MAR|MA">Maroc</option>
+				<option value="584" data-fuzzy="MHL|MH">Îles Marshall (pays)</option>
+				<option value="474" data-fuzzy="MTQ|MQ">Martinique</option>
+				<option value="480" data-fuzzy="MUS|MU">Maurice (pays)</option>
+				<option value="478" data-fuzzy="MRT|MR">Mauritanie</option>
+				<option value="175" data-fuzzy="MYT|YT">Mayotte</option>
+				<option value="484" data-fuzzy="MEX|MX">Mexique</option>
+				<option value="583" data-fuzzy="FSM|FM">Micronésie (pays)</option>
+				<option value="498" data-fuzzy="MDA|MD">Moldavie</option>
+				<option value="492" data-fuzzy="MCO|MC">Monaco</option>
+				<option value="496" data-fuzzy="MNG|MN">Mongolie</option>
+				<option value="499" data-fuzzy="MNE|ME">Monténégro</option>
+				<option value="500" data-fuzzy="MSR|MS">Montserrat</option>
+				<option value="508" data-fuzzy="MOZ|MZ">Mozambique</option>
+				<option value="104" data-fuzzy="MMR|MM">Birmanie</option>
+				<option value="516" data-fuzzy="NAM|NA">Namibie</option>
+				<option value="520" data-fuzzy="NRU|NR">Nauru</option>
+				<option value="524" data-fuzzy="NPL|NP">Népal</option>
+				<option value="558" data-fuzzy="NIC|NI">Nicaragua</option>
+				<option value="562" data-fuzzy="NER|NE">Niger</option>
+				<option value="566" data-fuzzy="NGA|NG">Nigeria</option>
+				<option value="570" data-fuzzy="NIU|NU">Niue</option>
+				<option value="574" data-fuzzy="NFK|NF">Île Norfolk</option>
+				<option value="578" data-fuzzy="NOR|NO">Norvège</option>
+				<option value="540" data-fuzzy="NCL|NC">Nouvelle-Calédonie</option>
+				<option value="554" data-fuzzy="NZL|NZ">Nouvelle-Zélande</option>
+				<option value="86" data-fuzzy="IOT|IO">Territoire britannique de l\'océan Indien</option>
+				<option value="512" data-fuzzy="OMN|OM">Oman</option>
+				<option value="800" data-fuzzy="UGA|UG">Ouganda</option>
+				<option value="860" data-fuzzy="UZB|UZ">Ouzbékistan</option>
+				<option value="586" data-fuzzy="PAK|PK">Pakistan</option>
+				<option value="585" data-fuzzy="PLW|PW">Palaos</option>
+				<option value="275" data-fuzzy="PSE|PS">Palestine</option>
+				<option value="591" data-fuzzy="PAN|PA">Panama</option>
+				<option value="598" data-fuzzy="PNG|PG">Papouasie-Nouvelle-Guinée</option>
+				<option value="600" data-fuzzy="PRY|PY">Paraguay</option>
+				<option value="528" data-fuzzy="NLD|NL">Pays-Bas</option>
+				<option value="604" data-fuzzy="PER|PE">Pérou</option>
+				<option value="608" data-fuzzy="PHL|PH">Philippines</option>
+				<option value="612" data-fuzzy="PCN|PN">Îles Pitcairn</option>
+				<option value="616" data-fuzzy="POL|PL">Pologne</option>
+				<option value="258" data-fuzzy="PYF|PF">Polynésie française</option>
+				<option value="630" data-fuzzy="PRI|PR">Porto Rico</option>
+				<option value="620" data-fuzzy="PRT|PT">Portugal</option>
+				<option value="634" data-fuzzy="QAT|QA">Qatar</option>
+				<option value="638" data-fuzzy="REU|RE">La Réunion</option>
+				<option value="642" data-fuzzy="ROU|RO">Roumanie</option>
+				<option value="826" data-fuzzy="GBR|GB">Royaume-Uni</option>
+				<option value="643" data-fuzzy="RUS|RU">Russie</option>
+				<option value="646" data-fuzzy="RWA|RW">Rwanda</option>
+				<option value="732" data-fuzzy="ESH|EH">République arabe sahraouie démocratique</option>
+				<option value="652" data-fuzzy="BLM|BL">Saint-Barthélemy</option>
+				<option value="659" data-fuzzy="KNA|KN">Saint-Christophe-et-Niévès</option>
+				<option value="674" data-fuzzy="SMR|SM">Saint-Marin</option>
+				<option value="663" data-fuzzy="MAF|MF">Saint-Martin</option>
+				<option value="534" data-fuzzy="SXM|SX">Saint-Martin</option>
+				<option value="666" data-fuzzy="SPM|PM">Saint-Pierre-et-Miquelon</option>
+				<option value="336" data-fuzzy="VAT|VA">Saint-Siège (État de la Cité du Vatican)</option>
+				<option value="670" data-fuzzy="VCT|VC">Saint-Vincent-et-les Grenadines</option>
+				<option value="654" data-fuzzy="SHN|SH">Sainte-Hélène, Ascension et Tristan da Cunha</option>
+				<option value="662" data-fuzzy="LCA|LC">Sainte-Lucie</option>
+				<option value="90" data-fuzzy="SLB|SB">Salomon</option>
+				<option value="882" data-fuzzy="WSM|WS">Samoa</option>
+				<option value="16" data-fuzzy="ASM|AS">Samoa américaines</option>
+				<option value="678" data-fuzzy="STP|ST">Sao Tomé-et-Principe</option>
+				<option value="686" data-fuzzy="SEN|SN">Sénégal</option>
+				<option value="688" data-fuzzy="SRB|RS">Serbie</option>
+				<option value="690" data-fuzzy="SYC|SC">Seychelles</option>
+				<option value="694" data-fuzzy="SLE|SL">Sierra Leone</option>
+				<option value="702" data-fuzzy="SGP|SG">Singapour</option>
+				<option value="703" data-fuzzy="SVK|SK">Slovaquie</option>
+				<option value="705" data-fuzzy="SVN|SI">Slovénie</option>
+				<option value="706" data-fuzzy="SOM|SO">Somalie</option>
+				<option value="729" data-fuzzy="SDN|SD">Soudan</option>
+				<option value="728" data-fuzzy="SSD|SS">Soudan du Sud</option>
+				<option value="144" data-fuzzy="LKA|LK">Sri Lanka</option>
+				<option value="752" data-fuzzy="SWE|SE">Suède</option>
+				<option value="756" data-fuzzy="CHE|CH">Suisse</option>
+				<option value="740" data-fuzzy="SUR|SR">Suriname</option>
+				<option value="744" data-fuzzy="SJM|SJ">Svalbard et ile Jan Mayen</option>
+				<option value="748" data-fuzzy="SWZ|SZ">Swaziland</option>
+				<option value="760" data-fuzzy="SYR|SY">Syrie</option>
+				<option value="762" data-fuzzy="TJK|TJ">Tadjikistan</option>
+				<option value="158" data-fuzzy="TWN|TW">Taïwan / (République de Chine (Taïwan))</option>
+				<option value="834" data-fuzzy="TZA|TZ">Tanzanie</option>
+				<option value="148" data-fuzzy="TCD|TD">Tchad</option>
+				<option value="203" data-fuzzy="CZE|CZ">Tchéquie</option>
+				<option value="260" data-fuzzy="ATF|TF">Terres australes et antarctiques françaises</option>
+				<option value="764" data-fuzzy="THA|TH">Thaïlande</option>
+				<option value="626" data-fuzzy="TLS|TL">Timor oriental</option>
+				<option value="768" data-fuzzy="TGO|TG">Togo</option>
+				<option value="772" data-fuzzy="TKL|TK">Tokelau</option>
+				<option value="776" data-fuzzy="TON|TO">Tonga</option>
+				<option value="780" data-fuzzy="TTO|TT">Trinité-et-Tobago</option>
+				<option value="788" data-fuzzy="TUN|TN">Tunisie</option>
+				<option value="795" data-fuzzy="TKM|TM">Turkménistan</option>
+				<option value="796" data-fuzzy="TCA|TC">Îles Turques-et-Caïques</option>
+				<option value="792" data-fuzzy="TUR|TR">Turquie</option>
+				<option value="798" data-fuzzy="TUV|TV">Tuvalu</option>
+				<option value="804" data-fuzzy="UKR|UA">Ukraine</option>
+				<option value="858" data-fuzzy="URY|UY">Uruguay</option>
+				<option value="548" data-fuzzy="VUT|VU">Vanuatu</option>
+				<option value="862" data-fuzzy="VEN|VE">Venezuela</option>
+				<option value="704" data-fuzzy="VNM|VN">Viêt Nam</option>
+				<option value="876" data-fuzzy="WLF|WF">Wallis-et-Futuna</option>
+				<option value="887" data-fuzzy="YEM|YE">Yémen</option>
+				<option value="894" data-fuzzy="ZMB|ZM">Zambie</option>
+				<option value="716" data-fuzzy="ZWE|ZW">Zimbabw</option>
+			</datalist>
+		</div>
+		<div class="fuzzy" id="fuzzy"><input name="resultat"/>
+			<datalist>
+				<option value="57">Test</option>
+				<option value="3">Test3</option>
+				<option value="10">Test10</option>
+				<option value="573">Plop 573</option>
+				<option value="Oui">Oui</option>
+			</datalist>
+		</div>
+	</div>
+</body>

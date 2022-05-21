@@ -1,60 +1,66 @@
 /**
  * Create a fuzzy search on an element
- * @param      {dom} _d_parent          The parent dom element (should follow the structure given in the sample)
- * @param    {array} _data              An array list of the elements to search, they should have the following structure : {key: UNIQUE_ID, fuzzy: [EXTRA_SEARCHABLE_STRING], label: LABEL_OF_THE_ROW}
- * @param {function} [_on_select]       When an element is selected, this function will be called
- * @param {function} [_on_goback]       When an element is selected (on go back), this function will be called
- * @param {function} [_on_input]        When a character is inputed, this function will be called
- * @param    {array} [_breadcrumb]      The current breadcrumb (should be an empty array if none)
- * @param   {string} [_breadcrumb_text] The current input text
+ * @param {dom}      _d_parent  The parent dom element (should follow the structure given in the sample)
+ * @param {mixed}    _data      An array list of the elements to search, or null if the data is in the datalist (see structure given in the sample), they should have the following structure :  {key: UNIQUE_ID, fuzzy: [EXTRA_SEARCHABLE_STRING], label: LABEL_OF_THE_ROW}
+ * @param {object}   _options   Options for the Fuzzy Search, as seen bellow :
+ *                              * datalist_separator: The datalist separator to be used - default: |
+ *                              * on_select: The callback function to be called when an element is selected
+ *                              * on_back : The callback function to be called when the Shift+Tab combinaison is pressed
  */
 class Fuzzy {
-	constructor(_d_parent, _data, _on_select, _on_goback, _on_input, _breadcrumb, _breadcrumb_text) {
-		if(!_breadcrumb) {
-			_breadcrumb = [];
-		}
-		if(!_breadcrumb_text) {
-			_breadcrumb_text = '';
-		}
+	constructor(_d_parent, _data = null, _options = {}) {
+		this.options = _options;
 		this.d_parent = _d_parent;
-		this.data = _data;
-		this.on_input = _on_input;
-		this.on_select = _on_select;
-		this.on_goback = _on_goback;
-		this.breadcrumb = _breadcrumb;
-		var t = this.d_parent.getElementsByClassName('fuzzy_text');
-		if(t.length) {
-			this.d_text = t[0];
-		}
-		var t = this.d_parent.getElementsByClassName('fuzzy_breadcrumb');
-		if(t.length) {
-			this.d_breadcrumb = t[0];
-		}
-		var t = this.d_parent.getElementsByClassName('fuzzy_input');
+		this.d_selected = null;
+		this.current = null;
+		this.selected = null;
+
+		this.set_data(_data);
+
+		var t = this.d_parent.getElementsByTagName('input');
 		if(t.length) {
 			this.d_input = t[0];
-			this.d_input.value = _breadcrumb_text;
+		} else {
+			this.d_input = document.createElement('input');
+			this.d_parent.insertAdjacentElement('afterbegin', this.d_input);
 		}
+
 		var t = this.d_parent.getElementsByClassName('fuzzy_dropdown');
 		if(t.length) {
 			this.d_dropdown = t[0];
+		} else {
+			this.d_dropdown = document.createElement('div');
+			this.d_dropdown.classList.add('fuzzy_dropdown');
+			this.d_parent.insertAdjacentElement('beforeend', this.d_dropdown);
 		}
+		this.d_dropdown.style.display = 'none';
 
 		(function(parent) {
 			parent.d_parent.addEventListener('mousedown', function() {
-				setTimeout(function() {parent.get_focus();}, 0);
+				if(!parent.d_input.disabled) {
+					setTimeout(function() {parent.focus();}, 0);
+				}
+				event.preventDefault();
 			});
-			parent.d_dropdown.addEventListener('scroll', function() {
-				setTimeout(function() {parent.get_focus();}, 0);
+
+			parent.d_input.addEventListener('focus', function() {
+				setTimeout(function() {parent.focus();}, 0);
 			});
+
+			parent.d_input.addEventListener('focusout', function() {
+				setTimeout(function() {parent.focusout();}, 0);
+			});
+
 			parent.d_input.addEventListener('keydown', function(event) {
 				if((event.key == 'Tab' && !event.shiftKey) || event.key == 'Enter') {
-					parent.select();
+					parent._select(event);
 					event.preventDefault();
-				} else if((event.key == 'Tab' && event.shiftKey)
-					|| (event.key == 'Backspace' && parent.d_input.value == '')) {
-					parent.back();
+				} else if((event.key == 'Tab' && event.shiftKey) || event.key == 'Escape') {
+					parent.focusout();
 					event.preventDefault();
+					if(parent.options.on_back) {
+						parent.options.on_back(event);
+					}
 				} else if(event.key == 'ArrowDown') {
 					if(parent.d_selected.nextElementSibling) {
 						parent.d_selected.className = '';
@@ -80,89 +86,76 @@ class Fuzzy {
 					}
 					event.preventDefault();
 				} else {
-					setTimeout(function() {parent.refresh_dropdown();if(parent.on_input)parent.on_input();}, 0);
+					setTimeout(function() {parent.current = parent.d_input.value; parent.refresh_dropdown();}, 0);
 				}
 			});
-		})(this);
 
-		this.refresh_breadcrumb();
-		this.refresh_dropdown();
+		})(this);
 	}
 
-	select_key(dom) {
+	focus() {
+		if(this.d_dropdown.style.display == 'none') {
+			this.d_input.focus();
+			this.d_input.value = this.current;
+			this.refresh_dropdown();
+			this.d_dropdown.style.display = 'block';
+		}
+	}
+
+	focusout() {
+		if(this.d_dropdown.style.display == 'block') {
+			this.d_input.blur();
+			this.d_input.value = '';
+			if(this.selected !== null) {
+				for(var i=0 ; i<this.data.length ; i++) {
+					if(this.data[i].key == this.selected) {
+						this.d_input.value = this.data[i].label;
+						break;
+					}
+				}
+			}
+			this._empty_dropdown();
+			this.d_dropdown.style.display = 'none';
+		}
+	}
+
+	set_data(_data) {
+		if(_data !== null) {
+			this.data = _data;
+		} else {
+			this.data = [];
+			var t = this.d_parent.getElementsByTagName('datalist');
+			for(var i=0 ; i<t.length ; i++) {
+				for(var j=0 ; j<t[i].options.length ; j++) {
+					this.data.push({
+						key: t[i].options[j].value,
+						fuzzy: (t[i].options[j].dataset.fuzzy !== undefined && t[i].options[j].dataset.fuzzy != '' ? t[i].options[j].dataset.fuzzy.split(this.options.datalist_separator || '|') : []),
+						label: t[i].options[j].text
+					});
+				}
+			}
+		}
+	}
+
+	_select_key(dom) {
 		this.d_selected.className = '';
 		this.d_selected = dom;
 		this.d_selected.className = 'fuzzy_selected';
 	}
 
-	valid_key(dom) {
+	_valid_key(dom, event) {
 		if(dom == this.d_selected) {
-			this.select();
+			this._select(event);
 		}
 	}
 
-	select() {
-		var selected = false;
-		for(var i=0 ; i<this.data.length ; i++) {
-			if(this.data[i].key == this.d_selected.dataset.key) {
-				selected = this.data[i];
-				break;
+	_select(event) {
+		if(this.d_selected !== null) {
+			this.selected = this.d_selected.dataset.key;
+			this.focusout();
+			if(this.options.on_select) {
+				this.options.on_select(this.d_selected.dataset.key, event);
 			}
-		}
-		if(selected && !selected.final) {
-			this.breadcrumb.push({
-				key: selected.key,
-				label: selected.label
-			});
-			this.d_input.value = '';
-			if(this.on_select) {
-				this.on_select(this.d_selected.dataset.key);
-			}
-			this.refresh_breadcrumb();
-		}
-	}
-
-	back(index) {
-		var index, key;
-		if(typeof index == 'undefined') {
-			index = this.breadcrumb.length-2;
-		}
-		if(index < 0) {
-			key = '/';
-		} else {
-			key = this.breadcrumb[index].key;
-		}
-		for(var i=0 ; i<this.breadcrumb.length-index-1 ; i++) {
-			this.d_breadcrumb.lastChild.remove();
-		}
-		this.breadcrumb.splice(index+1);
-		this.d_input.value = '';
-		if(this.on_goback) {
-			this.on_goback(key);
-		}
-		this.refresh_breadcrumb();
-	}
-
-	refresh_breadcrumb() {
-		if(!this.d_breadcrumb.firstElementChild) {
-			var t = document.createElement('span');
-			t.innerHTML = '&gt;&nbsp;';
-			(function(parent) {
-				t.addEventListener('click', function() {parent.back(-1);});
-			})(this);
-			this.d_breadcrumb.appendChild(t);
-		}
-		var d = this.d_breadcrumb.firstElementChild;
-		for(var i=0 ; i<this.breadcrumb.length ; i++) {
-			if(!d.nextElementSibling) {
-				var t = document.createElement('span');
-				t.innerHTML = this.breadcrumb[i].label+'&nbsp;&gt;&nbsp;';
-				(function(parent, index) {
-					t.addEventListener('click', function() {parent.back(index);});
-				})(this, i);
-				this.d_breadcrumb.appendChild(t);
-			}
-			d = d.nextElementSibling;
 		}
 	}
 
@@ -336,36 +329,44 @@ class Fuzzy {
 		while (this.d_dropdown.firstElementChild) {
 			this.d_dropdown.removeChild(this.d_dropdown.firstElementChild);
 		}
+		if(this.d_selected != null) {
+			var previous_key = this.d_selected.dataset.key;
+		}
+		this.d_selected = null;
 		for(var i=0 ; i<this.data.length ; i++) {
+			//TODO, Faire ça dans un timeout
+			//TODO, Réutiliser les div précédents, et en les réordonant, peut-être en les stockants dans une variable
 			if(this.data[i].fuzzy_score == -11111111) {
 				break;
 			}
 			var d = document.createElement('div');
-			d.innerHTML = this.data[i].label;
+			d.textContent = this.data[i].label;
 			if(this.data[i].fuzzy_ghost) {
-				d.innerHTML += ' ['+this.data[i].fuzzy_ghost+']';
+				d.textContent += ' ['+this.data[i].fuzzy_ghost+']';
 			}
 			d.dataset.key = this.data[i].key;
-			(function(parent, d) {d.addEventListener('mousedown', function() {parent.select_key(this);})})(this, d);
-			(function(parent, d) {d.addEventListener('click', function() {parent.valid_key(this);})})(this, d);
-			if(i == 0) {
+			(function(parent, d) {d.addEventListener('mousedown', function() {parent._select_key(this);})})(this, d);
+			(function(parent, d) {d.addEventListener('click', function(event) {parent._valid_key(this, event);})})(this, d);
+			if(previous_key == this.data[i].key) {
 				d.className = 'fuzzy_selected';
 				this.d_selected = d;
 			}
 			this.d_dropdown.appendChild(d);
 		}
-	};
+		if(this.d_selected === null && this.data.length > 0) {
+			this.d_selected = this.d_dropdown.firstElementChild;
+			if(this.d_selected !== null) {
+				this.d_selected.className = 'fuzzy_selected';
+			}
+		}
+		if(this.d_selected !== null) {
+			this.d_selected.scrollIntoView(false);
+		}
+	}
 
-	get_focus() {
-		this.d_input.focus();
-	};
-
-	/**
-	 * Set a new array to use
-	 * @param {array} _data An array list of the elements to search, they should have the same structure as the constructor
-	 */
-	set_data(_data) {
-		this.data = _data;
-		this.refresh_dropdown();
+	_empty_dropdown() {
+		while (this.d_dropdown.firstElementChild) {
+			this.d_dropdown.removeChild(this.d_dropdown.firstElementChild);
+		}
 	}
 }
